@@ -57,7 +57,7 @@ export function badgeGenerator(badgeSpecification: BadgeSpecification) : Promise
             autoFirstPage: false
         });
         // @ts-ignore
-        var stream = doc.pipe(blobStream());
+        const stream = doc.pipe(blobStream());
 
         for (const participant of badgeSpecification.participants) {
             await printParticipant(doc, participant, badgeSpecification.style);
