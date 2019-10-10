@@ -4,7 +4,10 @@ import * as XLSX from "xlsx";
 import {Participant} from "./model";
 
 export const ParticipantsUpload: React.FC<{ onSetParticipants(participants: Participant[]): void }> = ({onSetParticipants}) => {
-    const handleDataFile = (data: string) => {
+    const handleDataFile = (data?: string) => {
+        if (!data) {
+            return onSetParticipants([]);
+        }
         const workBook = XLSX.read(data.split(",")[1]);
         const worksheet = workBook.Sheets[workBook.SheetNames[0]];
         const participantsRaw = XLSX.utils.sheet_to_json(worksheet);
