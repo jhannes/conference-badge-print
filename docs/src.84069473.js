@@ -116,4 +116,4 @@ var e,t=arguments[3],r=require("buffer").Buffer,n=require("process"),a={};functi
 },{"react":"n8MK","./badge-generator":"lFer","./ParticipantForm":"rfEQ","./ParticipantsUpload":"IjbD","./FileUpload":"wJBH"}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importStar||function(e){if(e&&e.__esModule)return e;var r={};if(null!=e)for(var t in e)Object.hasOwnProperty.call(e,t)&&(r[t]=e[t]);return r.default=e,r};Object.defineProperty(exports,"__esModule",{value:!0});var r=e(require("react")),t=require("react-dom"),u=require("./App");t.render(r.createElement(u.App,null),document.getElementById("app"));
 },{"react":"n8MK","react-dom":"NKHc","./App":"NHn6"}]},{},["zo2T"], null)
-//# sourceMappingURL=/src.84069473.js.map
+//# sourceMappingURL=/conference-badge-print/src.84069473.js.map
