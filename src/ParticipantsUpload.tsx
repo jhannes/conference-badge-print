@@ -15,6 +15,7 @@ export const ParticipantsUpload: React.FC<{ onSetParticipants(participants: Part
 
         const participants = participantsRaw.map(p => {
             let twitter = p["Twitter handle to print on your badge"];
+            if (twitter && twitter.length < 4) twitter = null;
             if (twitter && !twitter.startsWith("@")) twitter = "@" + twitter;
 
             const footnote = p["Crew type"];
@@ -24,7 +25,6 @@ export const ParticipantsUpload: React.FC<{ onSetParticipants(participants: Part
                 familyName: p["Ticket Last Name"],
                 company: p["Ticket Company Name"],
                 frontTagline: twitter,
-                backTagline: p["Twitter handle to print on your badge"],
                 emailAddress: p["Ticket Email"],
                 footnote
             };

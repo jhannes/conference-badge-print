@@ -50,21 +50,20 @@ export const App = () => {
 };
 
 const Badges: React.FC<{
-    title: string,
     backgroundImage?: string,
     participants: Participant[]
-}> = ({title, backgroundImage, participants}) => {
+}> = ({backgroundImage, participants}) => {
 
     const [pdf, setPdf] = useState();
     useEffect(() => {
         setPdf(undefined);
         (async () => {
             setPdf(await badgeGenerator({
-                style: {title, backgroundImage},
+                style: {backgroundImage},
                 participants
             }));
         })();
-    }, [title, participants]);
+    }, [backgroundImage, participants]);
 
     return <>
         <iframe src={pdf} width="100%" height="100%" />

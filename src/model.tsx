@@ -12,7 +12,6 @@ export interface Participant {
 }
 
 export interface BadgeStyle {
-    title: string;
     backgroundImage?: string;
 }
 

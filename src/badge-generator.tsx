@@ -2,6 +2,7 @@ import {BadgeSpecification, BadgeStyle, Participant} from "./model";
 import * as qr from "qrcode";
 
 async function printPage(doc, {title, subTitle, detail, footnote, qrCode, backgroundImage}) {
+    console.log("Printing badge page", {title, subTitle, detail, footnote, qrCode, backgroundImage});
     doc.addPage();
 
     const width = doc.page.width - 20;
@@ -19,7 +20,7 @@ async function printPage(doc, {title, subTitle, detail, footnote, qrCode, backgr
 
     doc.font('Times-Roman');
     if (backgroundImage) {
-        doc.image(backgroundImage, 0, 0, { height, width });
+        doc.image(backgroundImage, 0, 0, { height, width: doc.page.width });
     }
     const qrImage = await qr.toDataURL(qrCode);
     doc.image(qrImage, (doc.page.width - 175 - qrWidth)/2, height - 85 - qrWidth, {
@@ -71,6 +72,7 @@ export function badgeGenerator(badgeSpecification: BadgeSpecification) : Promise
         });
         // @ts-ignore
         const stream = doc.pipe(blobStream());
+        doc.info['Title'] = "Badges " + new Date();
 
         for (const participant of badgeSpecification.participants) {
             await printParticipant(doc, participant, badgeSpecification.style);
@@ -78,7 +80,6 @@ export function badgeGenerator(badgeSpecification: BadgeSpecification) : Promise
 
         doc.end();
         stream.on('finish', function() {
-            console.log("finish");
             resolve(stream.toBlobURL('application/pdf'));
         });
     });
