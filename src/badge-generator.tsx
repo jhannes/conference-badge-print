@@ -42,23 +42,23 @@ async function printPage(doc, {title, subTitle, detail, footnote, qrCode, backgr
 }
 
 async function printParticipant(doc, participant: Participant, style: BadgeStyle) {
-    const fullName = participant.givenName + " " + participant.familyName;
-    const contactInfo = fullName + " <" + participant.emailAddress + ">";
+    const {fullName, company, footnote, emailAddress, backTagline, frontTagline} = participant;
+    const contactInfo = fullName + " <" + emailAddress + ">";
 
     await printPage(doc,{
         title: fullName,
-        subTitle: participant.company,
-        detail: participant.frontTagline,
+        subTitle: company,
+        detail: frontTagline,
         qrCode: contactInfo,
-        footnote: participant.footnote,
+        footnote: footnote,
         backgroundImage: style.backgroundImage
     });
     await printPage(doc, {
         title: fullName,
-        subTitle: participant.company,
-        detail: participant.backTagline || participant.frontTagline,
+        subTitle: company,
+        detail: backTagline || frontTagline,
         qrCode: contactInfo,
-        footnote: participant.footnote,
+        footnote: footnote,
         backgroundImage: style.backgroundImage
     });
 }

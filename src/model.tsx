@@ -1,13 +1,10 @@
 
 export interface Participant {
-    givenName: string;
-    familyName: string;
+    fullName: string;
     company?: string;
     emailAddress?: string;
     frontTagline?: string;
-    frontTagline2?: string;
     backTagline?: string;
-    backTagline2?: string;
     footnote?: string;
 }
 
