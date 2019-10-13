@@ -16,9 +16,20 @@ export const App = () => {
     const [participants, setParticipants] = useState<Participant[]>();
 
     return <>
-        <div>
-            <h1>Generate name badges</h1>
-
+        <header>
+            <h1>Badge Maker</h1>
+            <h2>Generate conference badges in the browser</h2>
+        </header>
+        <nav>
+            <h3>Instructions</h3>
+            <ol>
+                <li>Upload an image. It will be stretched to the 315x436 format of the badge</li>
+                <li>To preview, enter participant details and press "Create badge"</li>
+                <li>Select "Upload XLSX" to upload a list of participants</li>
+                <li>Use the provided template as a starting point</li>
+            </ol>
+        </nav>
+        <main id="control">
             <h2>Background image</h2>
             <ImageUpload value={backgroundImage} onChangeValue={setBackgroundImage}/>
 
@@ -42,10 +53,19 @@ export const App = () => {
             {
                 source == "input" && <ParticipantForm onSetParticipants={setParticipants} />
             }
-        </div>
-        <div>
+        </main>
+        <main id="preview">
             {participants && <Badges participants={participants} backgroundImage={backgroundImage} /> }
-        </div>
+        </main>
+        <footer>
+            <div>
+                Created by Johannes Brodwall.
+                Source code available on <a href="https://github.com/jhannes/conference-badge-print">GitHub</a>
+            </div>
+            <div>
+                For privacy reasons this website only process the data in your browser and never uploads them to another location.
+            </div>
+        </footer>
     </>
 };
 
