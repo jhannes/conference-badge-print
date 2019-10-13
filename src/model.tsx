@@ -10,6 +10,8 @@ export interface Participant {
 
 export interface BadgeStyle {
     backgroundImage?: string;
+    fontRegular?: ArrayBuffer|string;
+    font500?: ArrayBuffer|string;
 }
 
 export interface BadgeSpecification {

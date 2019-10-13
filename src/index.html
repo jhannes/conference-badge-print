@@ -5,11 +5,13 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Conference Badge Print</title>
+    <!--suppress CssUnusedSymbol -->
     <style>
-        @import 'fonts/roboto-v15-latin_latin-ext-300.ttf';
-        @import 'fonts/77d20e854ae4e4e2.jpg';
-        @import 'fonts/roboto-v15-latin_latin-ext-500.ttf';
-        @import 'fonts/roboto-v15-latin_latin-ext-regular.ttf';
+
+        @font-face {
+            font-family: roboto;
+            src: url("fonts/roboto-v15-latin_latin-ext-300.ttf")
+        }
 
         header, nav, footer {
             background-color: beige;
@@ -44,6 +46,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1em;
+            font-family: roboto, serif;
         }
 
         header h1, header h2 {

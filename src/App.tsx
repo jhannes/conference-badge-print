@@ -7,7 +7,7 @@ import {ParticipantForm} from "./ParticipantForm";
 import {ParticipantsUpload} from "./ParticipantsUpload";
 import {FileUpload} from "./FileUpload";
 
-type participantSource = "xsls" | "input";
+type participantSource = "xlsx" | "input";
 
 
 export const App = () => {

@@ -16,6 +16,5 @@ Limitations:
 
 In progress:
 
-* Fonts
 * Multiline taglines
  
