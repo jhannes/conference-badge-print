@@ -63,7 +63,7 @@ export const App = () => {
                 Source code available on <a href="https://github.com/jhannes/conference-badge-print">GitHub</a>
             </div>
             <div>
-                For privacy reasons this website only process the data in your browser and never uploads them to another location.
+                To protect the privacy of your event attendees this website only process the data in your browser and never uploads them to another location.
             </div>
         </footer>
     </>
