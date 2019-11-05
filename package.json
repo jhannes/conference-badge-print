@@ -7,7 +7,10 @@
     "start": "parcel --out-dir docs --public-url /conference-badge-print/ src/index.html",
     "clean": "rimraf docs",
     "build": "npm run clean && parcel build --out-dir docs --public-url /conference-badge-print/ src/index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "batch": "npm run batch:compile && npm run batch:run",
+    "batch:compile": "parcel build --out-dir batch --target node src/batch.ts",
+    "batch:run": "node batch/batch.js"
   },
   "keywords": [],
   "author": "Johannes Brodwall <johannes@brodwall.com>",

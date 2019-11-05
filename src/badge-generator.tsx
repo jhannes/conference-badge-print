@@ -1,58 +1,70 @@
 import {BadgeSpecification, BadgeStyle, Participant} from "./model";
 import * as qr from "qrcode";
 
-import roboto500 from  "./fonts/roboto-v15-latin_latin-ext-500.ttf";
-import robotoRegular from  "./fonts/roboto-v15-latin_latin-ext-regular.ttf";
+import roboto500 from "./fonts/roboto-v15-latin_latin-ext-500.ttf";
+import robotoRegular from "./fonts/roboto-v15-latin_latin-ext-regular.ttf";
 
-async function printPage(doc, {title, subTitle, detail, footnote, qrCode, backgroundImage, font500, fontRegular}) {
-    console.log("Printing badge page", {title, subTitle, detail, footnote, qrCode, backgroundImage});
+async function printPage(doc, {title, subtitle, detail, footnote, qrCode, backgroundImage, font500, fontRegular}) {
+    console.log("Printing badge page", {title, subtitle, detail, footnote, qrCode, backgroundImage});
     doc.addPage();
 
-    const width = doc.page.width - 20;
-    const height = doc.page.height;
     const margin = 15;
+    const width = doc.page.width - (margin*2);
+    const height = doc.page.height;
     const qrWidth = 70;
-    function printCenteredText(text, y, fontSteps: number[]) {
-        for (const size of fontSteps) {
-            doc.fontSize(size);
-            if (doc.widthOfString(text) <= width) break;
+
+    function adjustFontSize(fontSteps: number[], text, w = width) {
+        if (text) {
+            for (const size of fontSteps) {
+                doc.fontSize(size);
+                if (doc.widthOfString(text) <= w) return;
+            }
         }
-        const align = "center";
-        doc.text(text, margin, y, { align, height, width });
+    }
+
+    function printCenteredText(text, y, fontSteps: number[]) {
+        adjustFontSize(fontSteps, text);
+        doc.text(text, margin, y, { align: "center", height, width });
     }
 
     doc.font(font500);
     if (backgroundImage) {
         doc.image(backgroundImage, 0, 0, { height, width: doc.page.width });
     }
-    const qrImage = await qr.toDataURL(qrCode);
-    doc.image(qrImage, (doc.page.width - 175 - qrWidth)/2, height - 85 - qrWidth, {
-        width: qrWidth
-    });
+    if (qrCode && qrCode.length) {
+        const qrImage = await qr.toDataURL(qrCode);
+        doc.image(qrImage, (doc.page.width - 175 - qrWidth)/2, height - 85 - qrWidth, {
+            width: qrWidth
+        });
+    }
     printCenteredText(title, 163, [36, 30, 26]);
-    if (subTitle) {
+    if (subtitle) {
         doc.fillColor("#2d57a5");
-        printCenteredText(subTitle, 230, [18, 12, 10]);
+        printCenteredText(subtitle, 230, [24, 18]);
     }
     if (detail) {
-        doc.fillColor("#831641");
-        printCenteredText(detail, 301, [18]);
+        const multiline = detail.indexOf("\n") != -1;
+        doc.fillColor("#831641")
+            .font(multiline ? fontRegular : font500)
+            .fontSize(multiline ? 14 : 18);
+        doc.text(detail, 163, 301, {align: "left", height, width});
     }
     if (footnote) {
-        doc.font(fontRegular);
+        doc.font(font500);
         doc.fillColor("#ffffff");
+        doc.fontSize(24);
         doc.text(footnote, margin, 380, { align: "left", height, width });
     }
 }
 
-async function printParticipant(doc, participant: Participant, style: BadgeStyle) {
-    const {fullName, company, footnote, emailAddress, backTagline, frontTagline} = participant;
+export async function printBadge(doc, participant: Participant, style: BadgeStyle) {
+    const {fullName, subtitle, backSubtitle, footnote, emailAddress, backTagline, frontTagline} = participant;
     const {font500, fontRegular, backgroundImage} = style;
     const contactInfo = fullName + " <" + emailAddress + ">";
 
     await printPage(doc,{
         title: fullName,
-        subTitle: company,
+        subtitle,
         detail: frontTagline,
         qrCode: contactInfo,
         footnote: footnote,
@@ -62,7 +74,7 @@ async function printParticipant(doc, participant: Participant, style: BadgeStyle
     });
     await printPage(doc, {
         title: fullName,
-        subTitle: company,
+        subtitle: backSubtitle || subtitle,
         detail: backTagline || frontTagline,
         qrCode: contactInfo,
         footnote: footnote,
@@ -92,7 +104,7 @@ export function badgeGenerator(badgeSpecification: BadgeSpecification) : Promise
         const style = {backgroundImage, fontRegular, font500};
 
         for (const participant of participants) {
-            await printParticipant(doc, participant, style);
+            await printBadge(doc, participant, style);
         }
 
         doc.end();

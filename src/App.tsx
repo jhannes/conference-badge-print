@@ -73,7 +73,7 @@ const Badges: React.FC<{
     backgroundImage?: string,
     participants: Participant[]
 }> = ({backgroundImage, participants}) => {
-
+    const [loading, setLoading] = useState(true);
     const [pdf, setPdf] = useState();
     useEffect(() => {
         setPdf(undefined);
@@ -82,8 +82,13 @@ const Badges: React.FC<{
                 style: {backgroundImage},
                 participants
             }));
+            setLoading(false);
         })();
     }, [backgroundImage, participants]);
+
+    if (loading) {
+        return <div>Loading</div>;
+    }
 
     return <>
         <iframe src={pdf} width="100%" height="100%" />
