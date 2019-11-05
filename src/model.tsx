@@ -12,7 +12,7 @@ export interface Participant {
 export interface BadgeStyle {
     backgroundImage?: string;
     fontRegular?: ArrayBuffer|string;
-    font500?: ArrayBuffer|string;
+    fontBold?: ArrayBuffer|string;
 }
 
 export interface BadgeSpecification {
@@ -24,17 +24,21 @@ const undefIfBlank = (s: string) => s && s.trim().length > 1 ? s.trim() : undefi
 
 export function convertParticipants(participantsRaw) {
     return participantsRaw.map(p => {
+        const fullName = p["fullName"] || p["Ticket Full Name"] || p["Order Name"];
         let twitter = p["Twitter handle to print on your badge"];
+        console.log({fullName, twitter});
+
         if (twitter && twitter.length < 4) twitter = null;
         if (twitter && !twitter.startsWith("@")) twitter = "@" + twitter;
 
+
         const participant: Participant = {
-            fullName: p["fullName"] || p["Ticket Full Name"],
+            fullName,
             subtitle: undefIfBlank(p["subtitle"]) || undefIfBlank(p["Ticket Company Name"]),
             backSubtitle: undefIfBlank(p["backSubtitle"]),
             emailAddress: undefIfBlank(p["Ticket Email"]),
-            frontTagline: undefIfBlank(p["frontTagline"]) || twitter,
-            backTagline: undefIfBlank(p["backTagline"]),
+            frontTagline: undefIfBlank(p["frontTagline"]) || undefIfBlank(p["Crew type"]) || twitter,
+            backTagline: undefIfBlank(p["backTagline"]) || twitter,
             footnote: undefIfBlank(p["footnote"]) || undefIfBlank(p["Crew type"]) || "Attendee"
         };
         return participant;

@@ -3,9 +3,10 @@ import {useEffect} from "react";
 
 export const FileUpload: React.FC<{
     onChangeValue(value: string): void,
+    accept: string,
     localStorageKey?: string,
     onLoading?(value: boolean): void
-}> = ({onChangeValue, onLoading, localStorageKey}) => {
+}> = ({onChangeValue, accept, onLoading, localStorageKey}) => {
     useEffect(() => {
         if (localStorageKey) {
             onChangeValue(localStorage.getItem(localStorageKey));
@@ -25,5 +26,5 @@ export const FileUpload: React.FC<{
         reader.readAsDataURL(e.target.files[0]);
     };
 
-    return <input type="file" onChange={handleChange}/>;
+    return <input type="file" onChange={handleChange} accept={accept}/>;
 };

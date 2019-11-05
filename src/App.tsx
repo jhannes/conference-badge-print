@@ -11,7 +11,7 @@ type participantSource = "xlsx" | "input";
 
 
 export const App = () => {
-    const [source, setSource] = useState<participantSource>("input");
+    const [source, setSource] = useState<participantSource>("xlsx");
     const [backgroundImage, setBackgroundImage] = useState();
     const [participants, setParticipants] = useState<Participant[]>();
 
@@ -75,19 +75,22 @@ const Badges: React.FC<{
 }> = ({backgroundImage, participants}) => {
     const [loading, setLoading] = useState(true);
     const [pdf, setPdf] = useState();
+    const [loadingText, setLoadingText] = useState("Loading");
     useEffect(() => {
         setPdf(undefined);
         (async () => {
             setPdf(await badgeGenerator({
                 style: {backgroundImage},
                 participants
+            }, (p, index, count) => {
+                setLoadingText("Generated "+ index + " of " + count);
             }));
             setLoading(false);
         })();
     }, [backgroundImage, participants]);
 
     if (loading) {
-        return <div>Loading</div>;
+        return <div>{loadingText}</div>;
     }
 
     return <>
@@ -99,7 +102,7 @@ const ImageUpload: React.FC<{ value: any, onChangeValue: any }> = ({value, onCha
     const [loading, setLoading] = useState<boolean>(false);
 
     return <div>
-        <FileUpload onChangeValue={onChangeValue} localStorageKey="backgroundImage" onLoading={setLoading} />
+        <FileUpload onChangeValue={onChangeValue} localStorageKey="backgroundImage" onLoading={setLoading} accept=".png" />
         {loading && <div>Loading</div>}
         {value && (
             <>

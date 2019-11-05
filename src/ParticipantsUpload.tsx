@@ -28,7 +28,7 @@ export const ParticipantsUpload: React.FC<{ onSetParticipants(participants: Part
     return <>
         <h2>Upload file with participants</h2>
 
-        <FileUpload onChangeValue={handleDataFile} localStorageKey="dataFile" />
+        <FileUpload onChangeValue={handleDataFile} localStorageKey="dataFile" accept={".xlsx"} />
 
         <h3>Download template</h3>
 
