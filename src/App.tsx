@@ -17,7 +17,7 @@ export const App = () => {
 
     return <>
         <header>
-            <h1>Badge Maker</h1>
+            <h1>Badginator</h1>
             <h2>Generate conference badges in the browser</h2>
         </header>
         <nav>
